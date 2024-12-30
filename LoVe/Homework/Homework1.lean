@@ -41,17 +41,27 @@ Hitchhiker's Guide. As explained there, you can use `_` as a placeholder while
 constructing a term. By hovering over `_`, you will see the current logical
 context. -/
 
-@[autograded 1] def B : (α → β) → (γ → α) → γ → β :=
-  sorry
+@[autograded 1] def B : (α → β) → (γ → α) → γ → β := by
+  intro f g c
+  exact f (g c)
+  done
 
-@[autograded 1] def S : (α → β → γ) → (α → β) → α → γ :=
-  sorry
+@[autograded 1] def S : (α → β → γ) → (α → β) → α → γ := by
+  intro f g a
+  exact f a (g a)
+  done
 
-@[autograded 1] def moreNonsense : (γ → (α → β) → α) → γ → β → α :=
-  sorry
+@[autograded 1] def moreNonsense : (γ → (α → β) → α) → γ → β → α := by
+  intro f c b
+  have g := f c
+  have h := fun a : α => b
+  exact g h
+  done
 
-@[autograded 1] def evenMoreNonsense : (α → α → β) → (β → γ) → α → β → γ :=
-  sorry
+@[autograded 1] def evenMoreNonsense : (α → α → β) → (β → γ) → α → β → γ := by
+  intro f g a b
+  exact g b
+  done
 
 /- 1.2 (2 points). Complete the following definition.
 
@@ -60,8 +70,9 @@ follow the procedure described in the Hitchhiker's Guide.
 
 Note: Peirce is pronounced like the English word "purse." -/
 
-@[autograded 2] def weakPeirce : ((((α → β) → α) → α) → β) → β :=
-  sorry
+@[autograded 2] def weakPeirce : ((((α → β) → α) → α) → β) → β := by
+  exact fun f => f (fun g => g (fun h => f (fun _ => h)))
+  done
 
 
 
@@ -121,8 +132,8 @@ def appendImplicit {α : Type} : List α → List α → List α
 #eval appendImplicit [3, 1] [4, 1, 5]
 #eval appendImplicit [true] [true, false]
 
-/- 
-Notice that we did not need to give the argument `ℕ` or `Bool` to 
+/-
+Notice that we did not need to give the argument `ℕ` or `Bool` to
 `appendImplicit`.
 
 Prefixing a definition name with `@` gives the corresponding defintion in
